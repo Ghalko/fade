@@ -21,12 +21,15 @@ class Fade(object):
 		try:
 			result = []
 			for each in self.mlist:
-				result.append[self.index]
+				result.append(each[self.index])
 		except IndexError:
 			raise StopIteration
 		self.index += 1
 		result = tuple(result)
 		return result
+
+	def reset(self):
+		self.index = 0
 
 	def find_int(self, steps, start, end):
 		ans = [start]

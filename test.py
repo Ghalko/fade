@@ -61,3 +61,19 @@ def test_negative(start):
 	ans = f.find_int(10, 255, start)
 	assert len(ans) == 11
 	assert ans[-1] == start
+
+def test_reset():
+	f = Fade(10)
+	for each in f:
+		pass
+	f.reset()
+	assert f.index == 0
+
+def test_iteration():
+	f = Fade(10, startcolor=(0,0,0), endcolor=(10,10,10))
+	current = 0
+	for each in f:
+		print each
+		assert each == (current, current, current)
+		current += 1
+		assert f.index == current
