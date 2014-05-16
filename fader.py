@@ -1,18 +1,16 @@
 class Fade(object):
 	def __init__(self, steps, startcolor=None, endcolor=None):
-		if startcolor is None:
+		if startcolor is None or not isinstance(startcolor, tuple):
 			startcolor = (0,0,0)
-		if endcolor is None:
+		if endcolor is None or not isinstance(endcolor, tuple):
 			endcolor = (255,255,255)
-		red_step = ((endcolor[0]-startcolor[0])+1)/steps
-		green_step = ((endcolor[1]-startcolor[1])+1)/steps
-		blue_step = ((endcolor[2]-startcolor[2])+1)/steps
-		self.red = range(startcolor[0]+red_step-1, endcolor[0]+red_step,
-						 red_step)
-		self.green = range(startcolor[1]+green_step-1, endcolor[1]+green_step,
-						   green_step)
-		self.blue = range(startcolor[2]+blue_step-1, endcolor[2]+blue_step,
-						  blue_step)
+		if len(startcolor) != len(endcolor):
+			print "Indices do not match."
+			return
+		self.mlist = []
+		for i in range(len(startcolor)):
+			self.mlist.append(self.find_int(steps, startcolor[i],
+											endcolor[i]))
 		self.index = 0
 		return
 
@@ -21,10 +19,20 @@ class Fade(object):
 
 	def next(self):
 		try:
-			result = (int(round(self.red[self.index])),
-					  int(round(self.green[self.index])),
-					  int(round(self.blue[self.index])))
+			result = []
+			for each in self.mlist:
+				result.append[self.index]
 		except IndexError:
 			raise StopIteration
 		self.index += 1
+		result = tuple(result)
 		return result
+
+	def find_int(self, steps, start, end):
+		ans = [start]
+		step = float(end-start)/steps
+		current = start + step
+		for i in range(steps):
+			ans.append(int(round(current)))
+			current += step
+		return ans
