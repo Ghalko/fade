@@ -77,3 +77,22 @@ def test_iteration():
 		assert each == (current, current, current)
 		current += 1
 		assert f.index == current
+
+@pytest.mark.parametrize('tup', [
+	[(0,0,0),(10,10,10)],
+	[(0,0),(10,10)],
+    [(0,),(10,)],
+    [(0,0,0,0,0),(10,10,10,10,10)],
+    [(0,0,0,0,0,0,0,0,0),(10,10,10,10,10,10,10,10,10)],
+])
+def test_iteration(tup):
+	f = Fade(10, startcolor=tup[0], endcolor=tup[1])
+	len_tup = len(tup[0])
+	current = 0
+	for each in f:
+		match = []
+		for i in range(len_tup):
+			match.append(current)
+		assert each == tuple(match)
+		current += 1
+		assert f.index == current
